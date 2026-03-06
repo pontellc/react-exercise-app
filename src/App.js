@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import RepetitionExercise from "./components/RepetitionExercise";
 import DurationExercise from "./components/DurationExercise";
+import RunningExercise from "./RunningExercise";
 
 export default function App() {
   const exercises = [
@@ -8,11 +9,12 @@ export default function App() {
     { id: 2, name: "Sit-ups", type: "repetition" },
     { id: 3, name: "Plank", type: "duration" },
     { id: 4, name: "Jump Rope", type: "duration" },
+    { id: 5, name: "Running", type: "running" }
   ];
 
   const [selectedExercise, setSelectedExercise] = useState(null);
 
-  // Screen 1: Menu
+  // Screen 1: Exercise Menu
   if (!selectedExercise) {
     return (
       <div style={{ padding: 24, fontFamily: "Arial" }}>
@@ -39,14 +41,20 @@ export default function App() {
     );
   }
 
-  // Screen 2: Exercise screen
+  // Screen 2: Exercise Screen
+  let exerciseComponent;
+
+  if (selectedExercise.type === "repetition") {
+    exerciseComponent = <RepetitionExercise name={selectedExercise.name} />;
+  } else if (selectedExercise.type === "duration") {
+    exerciseComponent = <DurationExercise name={selectedExercise.name} />;
+  } else if (selectedExercise.type === "running") {
+    exerciseComponent = <RunningExercise />;
+  }
+
   return (
     <div style={{ padding: 24, fontFamily: "Arial" }}>
-      {selectedExercise.type === "repetition" ? (
-        <RepetitionExercise name={selectedExercise.name} />
-      ) : (
-        <DurationExercise name={selectedExercise.name} />
-      )}
+      {exerciseComponent}
 
       <div style={{ marginTop: 16 }}>
         <button
